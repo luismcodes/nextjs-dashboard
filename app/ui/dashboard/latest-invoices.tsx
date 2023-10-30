@@ -34,6 +34,7 @@ export default async function LatestInvoices({
                     className="mr-4 rounded-full"
                     width={32}
                     height={32}
+                    alt=''
                   />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
