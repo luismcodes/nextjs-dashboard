@@ -17,19 +17,22 @@ export async function fetchRevenue() {
   noStore();
 
   try {
+
+    // ################# Simulate a delay in a db query #################
     // Artificially delay a reponse for demo purposes.
     // Don't do this in real life :)
-    console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Fetching revenue data...'); // comment
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // comment
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    console.log('Data fetch complete after 3 seconds.');
+    console.log('Data fetch complete after 3 seconds.'); // comment
+    // ################################################################
 
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    throw new Error('Failed to fetch revenue data: ' + error);
   }
 }
 
@@ -44,6 +47,11 @@ export async function fetchLatestInvoices() {
   noStore();
 
   try {
+
+    // ################# Simulate a delay in a db query #################
+    console.log('Fetching latest invoices...'); // comment
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // comment
+
     // Fetch the last 5 invoices, sorted by date
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -51,6 +59,9 @@ export async function fetchLatestInvoices() {
       JOIN customers ON invoices.customer_id = customers.id
       ORDER BY invoices.date DESC
       LIMIT 5`;
+
+    console.log('Data fetch complete after 3 seconds.');// comment
+    // ################################################################
 
     const latestInvoices = data.rows.map((invoice) => ({
       ...invoice,
@@ -97,7 +108,7 @@ export async function fetchCardData() {
     };
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to card data.');
+    throw new Error('Failed to card data: ' + error);
   }
 }
 
