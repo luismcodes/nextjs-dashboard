@@ -21,12 +21,12 @@ export async function fetchRevenue() {
     // ################# Simulate a delay in a db query #################
     // Artificially delay a reponse for demo purposes.
     // Don't do this in real life :)
-    console.log('Fetching revenue data...'); // comment
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // comment
+    // console.log('Fetching revenue data...'); // comment
+    // await new Promise((resolve) => setTimeout(resolve, 3000)); // comment
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    console.log('Data fetch complete after 3 seconds.'); // comment
+    // console.log('Data fetch complete after 3 seconds.'); // comment
     // ################################################################
 
     return data.rows;
@@ -49,8 +49,8 @@ export async function fetchLatestInvoices() {
   try {
 
     // ################# Simulate a delay in a db query #################
-    console.log('Fetching latest invoices...'); // comment
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // comment
+    // console.log('Fetching latest invoices...'); // comment
+    // await new Promise((resolve) => setTimeout(resolve, 2000)); // comment
 
     // Fetch the last 5 invoices, sorted by date
     const data = await sql<LatestInvoiceRaw>`
@@ -60,7 +60,7 @@ export async function fetchLatestInvoices() {
       ORDER BY invoices.date DESC
       LIMIT 5`;
 
-    console.log('Data fetch complete after 3 seconds.');// comment
+    // console.log('Data fetch complete after 3 seconds.');// comment
     // ################################################################
 
     const latestInvoices = data.rows.map((invoice) => ({
@@ -79,8 +79,8 @@ export async function fetchCardData() {
 
   try {
     // ################# Simulate a delay in a db query #################
-    console.log('Fetching cards data...'); // comment
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // comment
+    // console.log('Fetching cards data...'); // comment
+    // await new Promise((resolve) => setTimeout(resolve, 2000)); // comment
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
@@ -97,7 +97,7 @@ export async function fetchCardData() {
       customerCountPromise,
       invoiceStatusPromise,
     ]);
-    console.log('Data fetch complete after 3 seconds.');// comment
+    // console.log('Data fetch complete after 3 seconds.');// comment
     // ################################################################
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
