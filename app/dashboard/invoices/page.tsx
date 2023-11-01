@@ -4,8 +4,10 @@ import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { Suspense } from 'react';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import Table from '@/app/ui/invoices/table';
+import Pagination from '@/app/ui/invoices/pagination';
+import { fetchInvoicesPages } from '@/app/lib/data';
 
-export default function Page({
+export default async function Page({
   searchParams
 }: {
   searchParams?: {
@@ -16,6 +18,7 @@ export default function Page({
   const query = searchParams?.query || ' ';
   const currentPage = Number(searchParams?.page);
   // const currentPage = searchParams?.page && !isNaN(Number(searchParams?.page)) ? Number(searchParams?.page) : 1; // Way 1. Avoid NaN error in currentPage var
+  const totalPages = await fetchInvoicesPages(query);
 
   return (
     <div className="w-full">
@@ -30,7 +33,7 @@ export default function Page({
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages} /> */}
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   );

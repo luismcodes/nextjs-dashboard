@@ -10,9 +10,8 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((value) => { // Debouncing prevents a new database query on every keystroke
-    console.log(`Searching... ${value}`);
-
     const params = new URLSearchParams(searchParams); // URLSearchParams -> URL-friendly format 
+    params.set('page', '1');
 
     if (value)
       params.set('query', value);
