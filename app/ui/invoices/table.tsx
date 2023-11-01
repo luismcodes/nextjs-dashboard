@@ -6,11 +6,12 @@ import { fetchFilteredInvoices } from '@/app/lib/data';
 
 export default async function InvoicesTable({
   query,
-  currentPage,
+  currentPage = 1,
 }: {
   query: string;
   currentPage: number;
 }) {
+  currentPage = isNaN(currentPage) ? 1 : currentPage; // Way 2. Avoid NaN error in currentPage var
   const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
