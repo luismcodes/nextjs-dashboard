@@ -18,7 +18,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     else
       params.delete('query');
 
-    replace(`${pathname}?${params.toString()}`); //'/dashboard/invoices?query=...'
+    replace(`${pathname}?${params.toString()}`); //'/dashboard/invoices?page=...&query=...'
   }, 300);
 
   return (
