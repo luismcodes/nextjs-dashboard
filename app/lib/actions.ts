@@ -1,9 +1,9 @@
 'use server';
 
 import { sql } from "@vercel/postgres";
+import { z } from "zod"; // library to validate data
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { z } from "zod"; // library to validate data
 
 // Schema to valdiate data before push to DB
 const InvoiceSchema = z.object({
@@ -29,6 +29,29 @@ export async function createInvoice(formData: FormData) {
   await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
+
+// Update invoice
+// Use Zod to update the expected types
+const UpdateInvoice = InvoiceSchema.omit({ id: true, date: true });
+
+export async function updateInvoice(id: string, formData: FormData) {
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+
+  const amountInCents = amount * 100;
+
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
   `;
 
   revalidatePath('/dashboard/invoices');
