@@ -9,6 +9,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     fetchCustomers()
   ]);
 
+  if (!invoice) return null; // o podrías renderizar un loader, un mensaje, etc.
+
   return (
     <main>
       <Breadcrumbs
