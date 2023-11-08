@@ -5,6 +5,8 @@ import { z } from "zod"; // library to validate data
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { signIn } from '@/auth';
+
 // Schema to valdiate data before push to DB
 const InvoiceSchema = z.object({
   id: z.string(),
@@ -127,4 +129,18 @@ export async function deleteInvoice(id: string) {
    * Calling revalidatePath will trigger a new server request and re-render the table.
    * redirect('/dashboard/invoices'); X
    */
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', Object.fromEntries(formData));
+  } catch (error) {
+    if ((error as Error).message.includes('CredentialsSignin')) {
+      return 'CredentialSignin';
+    }
+    throw error;
+  }
 }
